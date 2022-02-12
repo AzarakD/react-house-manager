@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import {
   Box,
   Paper,
-  Grid
+  Grid,
 } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
