@@ -42,6 +42,13 @@ export default function AddModal() {
     if (userInput.phone.length === PHONE_LENGTH) {
       onCloseClick();
       dispatch(postTenant({...userInput, bindId: currentAddress}));
+      setUserInput({
+        phone: '+7',
+        email: '',
+        name: '',
+        bindId: null,
+      });
+      setHelper('');
       return;
     }
     setHelper(HELPER_MESSAGE);
