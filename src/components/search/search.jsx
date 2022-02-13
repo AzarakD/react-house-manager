@@ -6,7 +6,7 @@ import {
   TextField,
   Autocomplete,
 } from '@mui/material';
-import { createAPI } from '../services/api';
+import { createAPI } from '../../services/api';
 
 const api = createAPI();
 const getStreetData = async () => {
@@ -110,7 +110,6 @@ export default function Search() {
           value={streetInput}
           isOptionEqualToValue={() => true}
           disablePortal
-          id="search-street"
           options={streets}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Улица" />}
@@ -120,7 +119,6 @@ export default function Search() {
           value={houseInput}
           isOptionEqualToValue={() => true}
           disablePortal
-          id="search-house"
           options={houses}
           sx={{ width: 150 }}
           renderInput={(params) => <TextField {...params} label="Дом" />}
@@ -130,7 +128,6 @@ export default function Search() {
           value={flatInput}
           isOptionEqualToValue={() => true}
           disablePortal
-          id="search-flat"
           options={flats}
           sx={{ width: 150 }}
           renderInput={(params) => <TextField {...params} label="Кв./офис" />}

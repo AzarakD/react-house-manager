@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
-import Search from './search';
-import TenantList from './tenant-list';
+import Search from './search/search';
+import TenantList from './tenant-list/tenant-list';
 
 export default function App() {
   return (
