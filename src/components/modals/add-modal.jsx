@@ -17,8 +17,10 @@ import {
 } from '@mui/material';
 import { getCurrentAddress } from '../../store/selectors';
 import { postTenant } from '../../store/api-actions';
-
-const HELPER_MESSAGE = 'Формат: +79998887766';
+import {
+  HELPER_MESSAGE,
+  PHONE_LENGTH
+} from '../../const';
 
 export default function AddModal() {
   const currentAddress = useSelector(getCurrentAddress);
@@ -37,7 +39,7 @@ export default function AddModal() {
   const onCloseClick = () => setOpen(false);
 
   const onSubmit = () => {
-    if (userInput.phone.length === 12) {
+    if (userInput.phone.length === PHONE_LENGTH) {
       onCloseClick();
       dispatch(postTenant({...userInput, bindId: currentAddress}));
       return;

@@ -3,7 +3,10 @@ import {
   loadHouses,
   loadStreets,
   loadTenants,
-  setCurrentAddress
+  removeTenant,
+  sendTenant,
+  setCurrentAddress,
+  updateTenants
 } from './actions';
 import { APIRoute } from '../const';
 
@@ -33,8 +36,37 @@ export const fetchTenants = (id) =>
   };
 
 export const postTenant = (tenant) =>
-  async (dispatch, _getStore, api) => {
+  async (dispatch, getStore, api) => {
     const { data } = await api.post(APIRoute.TENANT, tenant);
-    // dispatch(loadTenants(data));
-    console.log(data, 123);
+    const update = [
+      ...getStore().tenants,
+      {...tenant, id: data.id},
+    ];
+    dispatch(sendTenant());
+    dispatch(updateTenants(update));
+  };
+
+export const updateTenant = (tenant) =>
+  async (dispatch, getStore, api) => {
+    await api.put(APIRoute.EDIT, tenant);
+
+    const index = getStore().tenants.findIndex((item) => item.id === tenant.clientId);
+    const update = [
+			...getStore().tenants.slice(0, index),
+			{
+        ...tenant,
+        id: tenant.clientId,
+        bindId: tenant.addressId,
+      },
+			...getStore().tenants.slice(index + 1),
+		];
+    dispatch(updateTenants(update));
+  };
+
+export const deleteTenant = (id) =>
+  async (dispatch, getStore, api) => {
+    await api.delete(APIRoute.REMOVE.replace(':id', id));
+    const update = getStore().tenants.filter((item) => item.id !== id);
+    dispatch(removeTenant());
+    dispatch(updateTenants(update));
   };

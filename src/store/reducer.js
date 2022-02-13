@@ -4,8 +4,8 @@ import {
   loadHouses,
   loadStreets,
   loadTenants,
-  sendTenant,
-  setCurrentAddress
+  setCurrentAddress,
+  updateTenants
 } from './actions';
 
 const initialState = {
@@ -39,7 +39,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setCurrentAddress, (state, action) => {
       state.currentAddress = action.payload;
     })
-    .addCase(sendTenant, (state, action) => {
+    .addCase(updateTenants, (state, action) => {
       state.tenants = action.payload;
     });
 });

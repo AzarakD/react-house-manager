@@ -28,5 +28,13 @@ export const setCurrentAddress = createAction(
 
 export const sendTenant = createAction(
   ActionType.SEND_TENANT,
-  (tenant) => ({ payload: tenant }),
+);
+
+export const updateTenants = createAction(
+  ActionType.UPDATE_TENANTS,
+  (tenants) => ({ payload: tenants }),
+);
+
+export const removeTenant = createAction(
+  ActionType.REMOVE_TENANT,
 );
