@@ -1,34 +1,26 @@
-import { styled } from '@mui/material/styles';
 import {
   Box,
-  Paper,
-  Grid,
+  Grid
 } from '@mui/material';
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+import TenantCard from './tenant-card';
 
 export default function TenantList() {
   return (
     <>
       <div style={{ margin: '50px 0 20px 0' }}>Список жильцов</div>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
+      <Box sx={{ flexGrow: 1, minWidth: 350 }}>
+        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid item xs={4}>
-            <Item>Жилец 1</Item>
+            <TenantCard />
           </Grid>
           <Grid item xs={4}>
-            <Item>Жилец 2</Item>
+            <TenantCard />
           </Grid>
           <Grid item xs={4}>
-            <Item>Жилец 3</Item>
+            <TenantCard />
           </Grid>
           <Grid item xs={4}>
-            <Item>Жилец 4</Item>
+            <TenantCard />
           </Grid>
         </Grid>
       </Box>

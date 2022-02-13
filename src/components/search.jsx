@@ -1,6 +1,7 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState
+} from 'react';
 import {
   TextField,
   Autocomplete,
@@ -12,7 +13,6 @@ const getStreetData = async () => {
   const route = '/Request/streets';
   const { data } = await api.get(route);
 
-  console.log(data);
   return data;
 };
 
@@ -20,7 +20,6 @@ const getHouseData = async (id) => {
   const route = `/Request/houses/${id}`;
   const { data } = await api.get(route);
 
-  console.log(data);
   return data;
 };
 
@@ -28,7 +27,6 @@ const getFlatData = async (id) => {
   const route = `/Request/house_flats/${id}`;
   const { data } = await api.get(route);
 
-  console.log(data);
   return data;
 };
 
@@ -36,7 +34,6 @@ const getTenantData = async (id) => {
   const route = `/HousingStock/clients?addressId=${id}`;
   const { data } = await api.get(route);
 
-  console.log(data);
   return data;
 };
 
