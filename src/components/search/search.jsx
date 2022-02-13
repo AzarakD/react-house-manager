@@ -3,44 +3,28 @@ import {
   useState
 } from 'react';
 import {
+  useSelector,
+  useDispatch
+} from 'react-redux';
+import {
   TextField,
-  Autocomplete,
+  Autocomplete
 } from '@mui/material';
-import { createAPI } from '../../services/api';
-
-const api = createAPI();
-const getStreetData = async () => {
-  const route = '/Request/streets';
-  const { data } = await api.get(route);
-
-  return data;
-};
-
-const getHouseData = async (id) => {
-  const route = `/Request/houses/${id}`;
-  const { data } = await api.get(route);
-
-  return data;
-};
-
-const getFlatData = async (id) => {
-  const route = `/Request/house_flats/${id}`;
-  const { data } = await api.get(route);
-
-  return data;
-};
-
-const getTenantData = async (id) => {
-  const route = `/HousingStock/clients?addressId=${id}`;
-  const { data } = await api.get(route);
-
-  return data;
-};
+import {
+  getFlats,
+  getHouses,
+  getStreets
+} from '../../store/selectors';
+import {
+  fetchFlats,
+  fetchHouses,
+  fetchTenants
+} from '../../store/api-actions';
 
 export default function Search() {
-  const [streetData, setStreetData] = useState([]);
-  const [houseData, setHouseData] = useState([]);
-  const [flatData, setFlatData] = useState([]);
+  const streetData = useSelector(getStreets);
+  const houseData = useSelector(getHouses);
+  const flatData = useSelector(getFlats);
 
   const [streets, setStreets] = useState([]);
   const [houses, setHouses] = useState([]);
@@ -50,23 +34,27 @@ export default function Search() {
   const [houseInput, setHouseInput] = useState('');
   const [flatInput, setFlatInput] = useState('');
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getStreetData().then((data) => {
-      const streetNames = data.map((item) => item.name);
-      setStreets(streetNames);
-      setStreetData(data);
-    });
-  }, []);
+    const streetNames = streetData.map((item) => item.name);
+    setStreets(streetNames);
+  }, [streetData]);
+
+  useEffect(() => {
+    const houseNames = houseData.map((item) => item.name);
+    setHouses(houseNames);
+  }, [houseData]);
+
+  useEffect(() => {
+    const flatNames = flatData.map((item) => item.name);
+    setFlats(flatNames);
+  }, [flatData]);
 
   const onStreetChange = (streetName) => {
     if (streetName) {
       const currentStreet = streetData.filter((item) => item.name === streetName);
-
-      getHouseData(currentStreet[0].id).then((data) => {
-        const houseNames = data.map((item) => item.name);
-        setHouses(houseNames);
-        setHouseData(data);
-      });
+      dispatch(fetchHouses(currentStreet[0].id));
 
       if (streetName !== streetInput) {
         setStreetInput(streetName);
@@ -79,12 +67,8 @@ export default function Search() {
   const onHouseChange = (houseName) => {
     if (houseName) {
       const currentHouse = houseData.filter((item) => item.name === houseName);
+      dispatch(fetchFlats(currentHouse[0].id));
 
-      getFlatData(currentHouse[0].id).then((data) => {
-        const flatNames = data.map((item) => item.name);
-        setFlats(flatNames);
-        setFlatData(data);
-      })
       setHouseInput(houseName);
       setFlatInput('');
     }
@@ -93,10 +77,8 @@ export default function Search() {
   const onFlatChange = (flatName) => {
     if (flatName) {
       const currentAddress = flatData.filter((item) => item.name === flatName);
+      dispatch(fetchTenants(currentAddress[0].id));
 
-      getTenantData(currentAddress[0].id).then((data) => {
-        console.log(data);
-      });
       setFlatInput(flatName);
     }
   };

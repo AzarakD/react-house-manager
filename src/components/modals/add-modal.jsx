@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
+import {
   Close,
   PersonAddAlt1
 } from '@mui/icons-material';
@@ -11,23 +15,22 @@ import {
   DialogContent,
   DialogActions
 } from '@mui/material';
-import { createAPI } from '../../services/api';
+import { getCurrentAddress } from '../../store/selectors';
+import { postTenant } from '../../store/api-actions';
 
-const api = createAPI();
-const sendTenantData = async (tenant) => {
-  const route = '/HousingStock/client';
-  const res = await api.post(route, tenant);
-
-  return res;
-};
+const HELPER_MESSAGE = 'Формат: +79998887766';
 
 export default function AddModal() {
+  const currentAddress = useSelector(getCurrentAddress);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [helper, setHelper] = useState('');
   const [userInput, setUserInput] = useState({
     phone: '+7',
     email: '',
     name: '',
+    bindId: null,
   });
 
   const onOpenClick = () => setOpen(true);
@@ -36,16 +39,16 @@ export default function AddModal() {
   const onSubmit = () => {
     if (userInput.phone.length === 12) {
       onCloseClick();
-      sendTenantData(userInput);
+      dispatch(postTenant({...userInput, bindId: currentAddress}));
       return;
     }
-    setHelper('Формат: +79998887766');
+    setHelper(HELPER_MESSAGE);
   }
 
   return (
     <div>
-      <Button onClick={onOpenClick} size='small'>
-        <PersonAddAlt1 color='primary'/>
+      <Button onClick={onOpenClick} size='small' disabled={!currentAddress}>
+        <PersonAddAlt1 color={ currentAddress ? 'primary' : 'disabled' }/>
       </Button>
       <Dialog
         open={open}

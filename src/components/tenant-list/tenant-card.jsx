@@ -12,18 +12,18 @@ import {
   Typography
 } from '@mui/material';
 
-export default function TenantCard() {
+export default function TenantCard(tenant) {
   return (
     <Card sx={{ minWidth: 140 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Иванов Иван Инванович
+          {tenant.name}
         </Typography>
         <Typography variant="subtitle2">
-          <Phone fontSize='inherit' sx={{ marginRight: 2 }}/>+7 9998886655
+          <Phone fontSize='inherit' sx={{ marginRight: 2 }}/>{tenant.phone}
         </Typography>
         <Typography color="text.secondary">
-          <Mail fontSize='inherit' sx={{ marginRight: 2 }}/>user@mail.com
+          <Mail fontSize='inherit' sx={{ marginRight: 2 }}/>{tenant.email}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-between' }}>
