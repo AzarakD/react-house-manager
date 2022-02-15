@@ -47,7 +47,13 @@ export default function Search() {
   }, [houseData]);
 
   useEffect(() => {
-    const flatNames = flatData.map((item) => item.name);
+    const flatNames = flatData.reduce((res, item) => {
+      if (Number.isInteger(+item.name)) {
+        res.push(item.name);
+      };
+      return res;
+    }, []);
+
     setFlats(flatNames);
   }, [flatData]);
 
