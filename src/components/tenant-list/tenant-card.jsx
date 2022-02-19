@@ -56,7 +56,7 @@ export default function TenantCard(tenant) {
       {
         isModalOpen
           ? <EditModal tenant={tenant} onCloseClick={onCloseClick} />
-          : ''
+          : null
       }
     </>
   );

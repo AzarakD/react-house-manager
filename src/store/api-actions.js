@@ -52,14 +52,14 @@ export const updateTenant = (tenant) =>
 
     const index = getStore().tenants.findIndex((item) => item.id === tenant.clientId);
     const update = [
-			...getStore().tenants.slice(0, index),
-			{
+      ...getStore().tenants.slice(0, index),
+      {
         ...tenant,
         id: tenant.clientId,
         bindId: tenant.addressId,
       },
-			...getStore().tenants.slice(index + 1),
-		];
+      ...getStore().tenants.slice(index + 1),
+    ];
     dispatch(updateTenants(update));
   };
 
